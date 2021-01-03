@@ -35,11 +35,11 @@ TGT_CFLAGS      += $(DEBUG_FLAGS)
 
 ARFLAGS		= rcs
 
-OBJS		= gpio.o rcc.o desig.o
+OBJS		= gpio.o rcc.o desig.o usart.o
 OBJS		+= pwr_common_all.o pwr_common_l01.o
 
 OBJS            += gpio_common_all.o gpio_common_f0234.o rcc_common_all.o
-OBJS		+= crs_common_all.o
+OBJS		+= crs_common_all.o flash_common_l03.o
 
 OBJS            += usb.o usb_control.o usb_standard.o
 OBJS            += st_usbfs_core.o st_usbfs_v2.o

@@ -163,6 +163,7 @@
 #define RCC_CFGR_PLLSRC_HSI16_CLK	0x0
 #define RCC_CFGR_PLLSRC_HSE_CLK		0x1
 
+
 /* Wakeup from stop clock selection */
 #define RCC_CFGR_STOPWUCK_MSI		(0<<15)
 #define RCC_CFGR_STOPWUCK_HSI16		(1<<15)
@@ -631,6 +632,7 @@ void rcc_set_ppre2(uint32_t ppre2);
 void rcc_set_ppre1(uint32_t ppre1);
 void rcc_set_hpre(uint32_t hpre);
 /* TODO */
+void rcc_clock_setup_in_hsi_out(void);
 
 END_DECLS
 

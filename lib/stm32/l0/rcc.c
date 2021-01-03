@@ -36,6 +36,11 @@
 
 #include <libopencm3/cm3/assert.h>
 #include <libopencm3/stm32/rcc.h>
+#include <libopencm3/stm32/flash.h>
+
+uint32_t 	rcc_apb1_frequency = 32000000;
+uint32_t 	rcc_apb2_frequency = 32000000;
+uint32_t 	rcc_ahb_frequency = 32000000;
 
 void rcc_osc_on(enum rcc_osc osc)
 {
@@ -402,5 +407,28 @@ void rcc_set_hpre(uint32_t hpre)
 	RCC_CFGR = reg | (hpre << RCC_CFGR_HPRE_SHIFT);
 }
 
+void rcc_clock_setup_in_hsi_out(void)
+{
+	rcc_osc_on(HSI16);
+	rcc_wait_for_osc_ready(HSI16);
+	rcc_set_sysclk_source(HSI16);
 
+	rcc_set_hpre(RCC_CFGR_HPRE_NODIV);
+	rcc_set_ppre1(RCC_CFGR_PPRE1_NODIV);
+	rcc_set_ppre2(RCC_CFGR_PPRE2_NODIV);
+
+	flash_set_ws(FLASH_ACR_LATENCY_1WS);
+
+	/* 16MHz * 4 / 2 = 32MHz	*/
+	rcc_set_pll_multiplier(RCC_CFGR_PLLMUL_MUL4);
+	rcc_set_pll_divider(RCC_CFGR_PLLDIV_DIV2);
+
+	rcc_osc_on(PLL);
+	rcc_wait_for_osc_ready(PLL);
+	rcc_set_sysclk_source(PLL);
+
+	rcc_apb1_frequency = 32000000;
+	rcc_apb2_frequency = 32000000;
+	rcc_ahb_frequency = 32000000;
+}
 /**@}*/
